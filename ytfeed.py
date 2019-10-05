@@ -10,14 +10,6 @@ MAX_RETRY = 5
 
 
 def get_videos(channel_list):
-    loop = asyncio.get_event_loop()
-    ret=[]
-    result = loop.run_until_complete(_getvids(channel_list))
-    [ret.append(vid) for vid in result if vid]
-    return ret
-
-
-async def _getvids(channel_list):
     '''
     channel_list内の各チャンネルIDから、フィードに含まれる
     動画IDを非同期に取得し、チャンネルごとにまとめて返す。
@@ -27,11 +19,30 @@ async def _getvids(channel_list):
         YouTubeのチャンネルID('UC～')のリスト
     Returns
     --------
+        Channelオブジェクトのリスト
+    '''
+    loop = asyncio.get_event_loop()
+    ret=[]
+    result = loop.run_until_complete(_getvids(channel_list))
+    [ret.append(vid) for vid in result if vid]
+    return ret
+
+
+async def _getvids(channel_list):
+    '''
+    get_videos関数から呼び出されるコルーチン。
+    _fetch関数を並行に呼び出し、チャンネルごとのフィードデータを
+    非同期に取得する。
+    ---------
+    channel_list : list of str
+        YouTubeのチャンネルID('UC～')のリスト
+    Returns
+    --------
         Videoオブジェクトのリスト
     '''
     async with aiohttp.ClientSession() as session:
         futures = [_fetch(session, channel_id) for channel_id in channel_list]
-        return await asyncio.gather(*futures)
+        return await asyncio.gather(*futures, return_exceptions=True)
         
 
 async def _fetch(session, channel_id):

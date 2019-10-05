@@ -7,14 +7,14 @@ if __name__ == '__main__':
                     ]
 
     channels = ytfeed.get_videos(channel_list)
-
+    print('チャンネルデータ一覧')
     for channel in channels:
-        print(channel.id)
-        print(channel.title)
-        print(channel.videos)
-
+        print(f"---チャンネルID---\n{channel.id}")
+        print(f"---チャンネル名---\n{channel.title}")
+        print(f"---直近の動画IDリスト---{channel.videos}")
+        print()
     print()
-    
+    print('フィード内動画ID一覧')
     videos = ytfeed_flat.get_videos(channel_list)
     print(videos)
 
