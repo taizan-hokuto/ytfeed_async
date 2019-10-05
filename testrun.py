@@ -5,7 +5,6 @@ if __name__ == '__main__':
                     "UCQINXHZqCU5i06HzxRkujfg",#BGM channel
                     "UCiVAGG1Ull73fR_xp0909rA",#Green Music BGM channel
                     ]
-
     channels = ytfeed.get_videos(channel_list)
     print('チャンネルデータ一覧')
     for channel in channels:

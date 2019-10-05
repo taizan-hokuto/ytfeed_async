@@ -8,7 +8,6 @@ from channel import Channel
 #通信エラー等でフィードが取得できない場合の最大リトライ回数
 MAX_RETRY = 5
 
-
 def get_videos(channel_list):
     '''
     channel_list内の各チャンネルIDから、フィードに含まれる
